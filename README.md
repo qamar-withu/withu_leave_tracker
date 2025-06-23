@@ -135,15 +135,8 @@ There are 4 layers in the project architecture:
 | Prod    | com.withuleavetracker.app                | Withu LT         |
                        
 
-### Add Flavor to Firebase
 
-1. firebase use --add e.g. uat
-
-2. firebase init hosting:github, which will create secrets under: https://github.com/moregooddays/flutter-app/settings/secrets/actions
-
-3. ignore the generated yml files, and copy existing environments yml settings and edit (e.g. qa, staging)
-
-4. Deploy the first firebase deploy
+ Deploy the first firebase deploy
 
 ### Auto build json_serializable, freezed
 
