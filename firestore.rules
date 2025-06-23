@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read and write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Leave requests - users can create/read their own, managers can read/write team requests
+    match /leave_requests/{requestId} {
+      allow read, write: if request.auth != null && (
+        request.auth.uid == resource.data.userId ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['manager', 'admin']
+      );
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Teams - authenticated users can read, managers/admins can write
+    match /teams/{teamId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && (
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['manager', 'admin'] ||
+        request.auth.uid == resource.data.managerId
+      );
+    }
+    
+    // Projects - authenticated users can read, managers/admins can write
+    match /projects/{projectId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && (
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['manager', 'admin'] ||
+        request.auth.uid == resource.data.managerId
+      );
+    }
+  }
+}

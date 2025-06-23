@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "withu-leave-tracker"
+  },
+  "targets": {
+    "withu-leave-tracker": {
+      "hosting": {
+        "withu-leave-tracker": [
+          "withu-leave-tracker"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}
